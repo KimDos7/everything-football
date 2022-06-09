@@ -1,0 +1,4 @@
+import scrapeStandings
+import audioInput
+
+scrapeStandings.get_standings_from_fbref(2)
