@@ -66,8 +66,11 @@ def scrape_one_team(url, year):
     shooting.columns = shooting.columns.droplevel()
 
     #merge two data frames
+    wanted_index = ["Date", "Sh", "SoT", "Dist", "FK", "PK", "PKatt"]
+
+    checked_index = list(filter(lambda x : x in list(shooting), wanted_index))
     try:
-        team_data = matches.merge(shooting[["Date", "Sh", "SoT", "Dist", "FK", "PK", "PKatt"]], on="Date")
+        team_data = matches.merge(shooting[checked_index], on="Date")
     except ValueError:
         pass
 
