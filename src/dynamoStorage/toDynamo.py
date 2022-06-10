@@ -28,7 +28,6 @@ table = dynamodb.create_table (
                 'ReadCapacityUnits':1,
                 'WriteCapacityUnits':1
             }
-          
     )
 print(table)
 

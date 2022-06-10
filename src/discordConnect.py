@@ -23,11 +23,18 @@ async def on_ready():
     print("Entered...")
     print('We have logged in as {0.user}'.format(client))
     #print(f'{client.user} has connected to Discord!')
+    
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
+
+    if message.content.startswith('!help'):
+        embed=discord.Embed(title="Commands", url="https://realdrewdata.medium.com/", description="This is an embed that will show how to build an embed and the different components", color=discord.Color.blue())
+        embed.set_author(name="EverythingFootball")
+        embed.add_field(name="!scrape", value="This scrape command is the start for most commands. There are several things you can do like get a random match soccer match data!", inline=True)
+        await message.channel.send(embed=embed)
 
     #handles the logic with a !scrape command
     if message.content.startswith('!scrape'):
@@ -46,6 +53,8 @@ async def on_message(message):
                 newTeam = " ".join(messageSplit)
                 print(setUserFavorite.updateUserFavoriteTeam(user, discriminator, newTeam))
             await message.channel.send("Updated!")
+
+        #getting info commands
         elif scrapeMsg[1] == "get":
             await message.channel.send("Getting Info!")
             info = scrapeMsg[2]
@@ -75,16 +84,14 @@ def handle_scrape_parsor(league, type, team, year=2022):
 def combine_header_data(data, headers, reversed=True):
     one_stat_per_line = ""
     output = list(zip(headers, data))
-
     if reversed:
-        output = reversed(output)
+        output.reverse()
     for e in output:
         if e[0] == 'Unnamed: 0':
             continue
         one_stat_per_line += e[0].capitalize() + ": " + str(e[1]) + "\n"
 
     return one_stat_per_line
-
 
 #grabbing csv header names
 def grab_csv_headers(csv_file):
